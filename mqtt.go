@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+
 	MQTT "git.eclipse.org/gitroot/paho/org.eclipse.paho.mqtt.golang.git"
 	"github.com/thethingsnetwork/server-shared"
-	"log"
-	"os"
 )
 
 type MqttConsumer struct {
@@ -14,9 +14,11 @@ type MqttConsumer struct {
 }
 
 func ConnectPaho() (PacketHandler, error) {
-	uri := os.Getenv("MQTT_BROKER")
+	//uri := os.Getenv("MQTT_BROKER")
+	uri := config.MqttBroker
 	opts := MQTT.NewClientOptions().AddBroker(uri)
-	opts.SetClientID("jolie")
+	//opts.SetClientID("jolie")
+	opts.SetClientID(config.MqttClientID)
 
 	c := MQTT.NewClient(opts)
 	if token := c.Connect(); token.Wait() && token.Error() != nil {

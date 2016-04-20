@@ -1,0 +1,6 @@
+# Jolie config
+amqp_uri: amqp://guest:guest@localhost:5672
+mongodb_uri: localhost:27017
+mongodb_database: jolie
+mqtt_broker: tcp://localhost:1883
+mqtt_client_id: jolie

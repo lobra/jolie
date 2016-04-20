@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"log"
+	"time"
+
 	"github.com/streadway/amqp"
 	"github.com/thethingsnetwork/server-shared"
-	"log"
-	"os"
-	"time"
 )
 
 const (
@@ -24,7 +24,8 @@ type RabbitConsumer struct {
 func ConnectRabbitConsumer() (Consumer, error) {
 	var err error
 	for i := 0; i < RABBIT_ATTEMPTS; i++ {
-		uri := os.Getenv("AMQP_URI")
+		//uri := os.Getenv("AMQP_URI")
+		uri := config.AMQPUri
 		conn, err := amqp.Dial(uri)
 		if err != nil {
 			log.Printf("Failed to connect to %s: %s", uri, err.Error())

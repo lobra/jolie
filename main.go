@@ -1,11 +1,18 @@
 package main
 
 import (
-	"github.com/thethingsnetwork/server-shared"
+	"flag"
+	"fmt"
+	"io/ioutil"
 	"log"
+
+	"gopkg.in/yaml.v2"
+
+	"github.com/thethingsnetwork/server-shared"
 )
 
 var (
+	config   Config
 	consumer Consumer
 	mqtt     PacketHandler
 	database PacketHandler
@@ -14,7 +21,28 @@ var (
 func main() {
 	log.Print("Jolie is ALIVE")
 
-	err := connectConsumer()
+	//// go run */*.go -config=jolie_config.yml
+	var configFilePath string
+	flag.StringVar(&configFilePath, "config", "/non/existent/filez", "the YAML config file")
+	flag.Parse()
+	cfgData, err := ioutil.ReadFile(configFilePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	config = Config{}
+	err = yaml.Unmarshal([]byte(cfgData), &config)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	/*
+		if err = config.Parse(cfgData); err != nil {
+			log.Fatal(err)
+		}
+	*/
+	fmt.Printf("config:\n%+v\n\n", config)
+
+	err = connectConsumer()
 	if err != nil {
 		log.Fatalf("Failed to connect consumer: %s", err.Error())
 	}
