@@ -1,4 +1,6 @@
-# Jolie config
+# Jolie config template
+# copy and edit your own config file, and refer it from the command line like this:
+# ./jolie -config=/path/to/jolie/config.yml
 amqp_uri: amqp://guest:guest@localhost:5672
 mongodb_uri: localhost:27017
 mongodb_database: jolie
